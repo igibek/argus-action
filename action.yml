@@ -1,0 +1,52 @@
+# Author: Igibek Koishybayev
+name: 'Argus Action'
+description: 'Static analyzer for GitHub Actions workflow and third-party actions to detect code injection vulnerabilities.'
+inputs:
+  mode:
+    description: 'Mode of the action'
+    required: true
+    default: 'repo'
+  workflow:
+    description: "Workflow to analyze"
+    required: false
+  commit:
+    required: false
+  tag:
+    required: false
+  branch:
+    required: false
+runs:
+  using: "composite"
+  steps:
+    # setup codeql
+    - name: setting up the codeql
+      run: |
+        cd bin
+        wget https://github.com/github/codeql-cli-binaries/releases/download/v2.13.3/codeql-linux64.zip
+        unzip codeql-linux64.zip
+    
+    - run: git clone --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql bin/codeql-repo
+    
+    # setup python environment
+    - name: setting up the python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+        cache: "pip"
+    # install dependencies
+    - name: install pip dependencies
+      run: pip install -r requirements.txt
+
+    # run the argus with provided inputs
+    - name: Set GitHub Path
+      run: python argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --branch=$REFERENCE --commit=$COMMIT
+      shell: bash
+      env:
+        GITHUB_URL: ${{ github.repositoryUrl }}
+        COMMIT: ${{ github.sha }}
+        REFERENCE: ${{ github.ref_name }}
+        GH_TOKEN: ${{ github.token }}
+
+    # TODO: upload the sarif files into security tab
+    - name: Outputting the results
+      run: ls results/

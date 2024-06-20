@@ -1,0 +1,6 @@
+__pycache__
+.venv
+bin/
+!bin/Readme.md
+results/
+saved_results/
