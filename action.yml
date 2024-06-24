@@ -27,6 +27,7 @@ runs:
       shell: bash
     
     - run: git clone --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql bin/codeql-repo
+      shell: bash
     
     # setup python environment
     - name: setting up the python
