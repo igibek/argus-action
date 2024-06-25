@@ -21,6 +21,7 @@ runs:
     # setup codeql
     - name: setting up the codeql
       run: |
+        ls ${{ github.action_path }} 
         cd ${{ github.action_path }}/bin
         wget https://github.com/github/codeql-cli-binaries/releases/download/v2.13.3/codeql-linux64.zip
         unzip codeql-linux64.zip
