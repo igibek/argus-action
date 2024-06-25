@@ -21,14 +21,13 @@ runs:
     # setup codeql
     - name: setting up the codeql
       run: |
-        pwd
-        ls
-        cd ./bin
+        mkdir -p $HOME/.argus/bin
+        cd $HOME/.argus/bin
         wget https://github.com/github/codeql-cli-binaries/releases/download/v2.13.3/codeql-linux64.zip
         unzip codeql-linux64.zip
       shell: bash
     
-    - run: git clone --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql bin/codeql-repo
+    - run: git clone --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql $HOME/.argus/bin/codeql-repo
       shell: bash
     
     # setup python environment
