@@ -44,6 +44,8 @@ runs:
     
     # clone the repository
     - uses: actions/checkout@v4
+      with:
+        path: clonedrepo
     - run: |
         ls -al
         echo ${{ github.workspace }}
@@ -51,7 +53,7 @@ runs:
 
     # run the argus with provided inputs
     - name: Set GitHub Path
-      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --commit=$COMMIT --verbose --output-folder=${{ github.action_path }}
+      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --commit=$COMMIT --output-folder=${{ github.workspace }}
       shell: bash
       env:
         GITHUB_URL: ${{ github.repositoryUrl }}
