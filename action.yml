@@ -44,7 +44,7 @@ runs:
 
     # run the argus with provided inputs
     - name: Set GitHub Path
-      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --commit=$COMMIT
+      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --commit=$COMMIT --verbose --output-folder=${{ github.action_path }}
       shell: bash
       env:
         GITHUB_URL: ${{ github.repositoryUrl }}
