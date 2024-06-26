@@ -45,7 +45,8 @@ runs:
     # clone the repository
     - uses: actions/checkout@v4
     - run: ll
-    
+      shell: bash
+
     # run the argus with provided inputs
     - name: Set GitHub Path
       run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --commit=$COMMIT --verbose --output-folder=${{ github.action_path }}
