@@ -43,13 +43,13 @@ runs:
       shell: bash
     
     # clone the repository
-    - uses: actions/checkout@v4
-      with:
-        path: clonedrepo
-    - run: |
-        ls -al
-        echo ${{ github.workspace }}
-      shell: bash
+    # - uses: actions/checkout@v4
+    #   with:
+    #     path: clonedrepo
+    # - run: |
+    #     ls -al
+    #     echo ${{ github.workspace }}
+    #   shell: bash
 
     # run the argus with provided inputs
     - name: Set GitHub Path

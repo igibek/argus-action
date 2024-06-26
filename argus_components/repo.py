@@ -37,7 +37,8 @@ logger = get_logger("repo")
 
 class Repo:
     def __init__(self, repo_url : str, option_dict : dict): 
-        self.repo_url = repo_url
+        
+        self.repo_url = repo_url.replace("git://", "https://")
         self.option_dict = option_dict    
         self.repo_name = self._get_repo_name_from_url()
         self.owner_name = self._get_repo_owner_from_url()
@@ -47,6 +48,7 @@ class Repo:
         self.folder = LOCAL_FOLDER / f"{self.owner_name}#{self.repo_name}"
         logger.info(f"Cloning repository to {self.folder}")
         # clone the repository
+
         clone_repo(self.repo_url, self.folder, self.option_dict)
 
         self.workflows = Workflow.initialize_workflows(self.folder)    
