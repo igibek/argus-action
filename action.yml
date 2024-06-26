@@ -44,7 +44,9 @@ runs:
     
     # clone the repository
     - uses: actions/checkout@v4
-    - run: ll
+    - run: |
+        ls -al
+        echo ${{ github.workspace }}
       shell: bash
 
     # run the argus with provided inputs
