@@ -2,5 +2,6 @@ __pycache__
 .venv
 bin/*
 !bin/Readme.md
-results/
+results/*
+!results/README.md
 saved_results/
