@@ -24,12 +24,12 @@ import pathlib
 import os
 
 
-ROOT_FOLDER: pathlib.Path = pathlib.Path.absolute(__file__) / "../../"
+ROOT_FOLDER: pathlib.Path = pathlib.Path(os.path.dirname(__file__)) / "../../"
 LOCAL_FOLDER : pathlib.Path = pathlib.Path('/tmp')
-CODEQL_BIN : pathlib.Path = ROOT_FOLDER / "bin/codeql/codeql"
-QUERY_PATH : pathlib.Path = ROOT_FOLDER / "qlqueries"
+CODEQL_BIN : pathlib.Path = pathlib.Path(ROOT_FOLDER) / "bin/codeql/codeql"
+QUERY_PATH : pathlib.Path = pathlib.Path(ROOT_FOLDER) / "qlqueries"
 ENABLE_LOW_PRIORITY_REPORTS : bool = True
-RESULTS_FOLDER : pathlib.Path = ROOT_FOLDER / "results"
+RESULTS_FOLDER : pathlib.Path = pathlib.Path(ROOT_FOLDER) / "results"
 
 def parse_config(config_file : str):
     # open and read the config json file
