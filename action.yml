@@ -42,21 +42,19 @@ runs:
         pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
     
-    # clone the repository
-    # - uses: actions/checkout@v4
-    #   with:
-    #     path: clonedrepo
-    # - run: |
-    #     ls -al
-    #     echo ${{ github.workspace }}
-    #   shell: bash
+    # update the git url to include the token
+    - name: updating the git url
+      id: https-url
+      run: |
+        echo ${{ github.repositoryUrl }} | sed 's/git:\/\//URL=https:\/\/${{github.token}}@/' >> "$GITHUB_OUTPUT"
+      shell: bash
 
     # run the argus with provided inputs
     - name: Set GitHub Path
       run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --commit=$COMMIT --output-folder=${{ github.workspace }}
       shell: bash
       env:
-        GITHUB_URL: ${{ github.repositoryUrl }}
+        GITHUB_URL: ${{ steps.https-url.outputs.URL }}
         COMMIT: ${{ github.sha }}
         REFERENCE: ${{ github.ref_name }}
         GH_TOKEN: ${{ github.token }}
