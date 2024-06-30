@@ -61,7 +61,7 @@ runs:
 
     - name: Copy the sarif results to workspace
       id: sarif-files
-      run: cp -r ${{ github.action_path }}/results >> ${{ github.workspace }}/sarif-output
+      run: cp -r ${{ github.action_path }}/results ${{ github.workspace }}/sarif-output
       shell: bash
 
     - name: Upload SARIF file
