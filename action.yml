@@ -65,10 +65,10 @@ runs:
       shell: bash
 
     - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          # Path to SARIF file relative to the root of the repository. We can path sarif-output folder to upload the whole folder
-          sarif_file: ${{github.workspace}}/sarif-output
-          # Optional category for the results
-          # Used to differentiate multiple results for one commit
-          category: argus
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        # Path to SARIF file relative to the root of the repository. We can path sarif-output folder to upload the whole folder
+        sarif_file: ${{github.workspace}}/sarif-output
+        # Optional category for the results
+        # Used to differentiate multiple results for one commit
+        category: argus
