@@ -78,7 +78,7 @@ class WorkflowReport(Report):
             if 'sink' not in sink:
                 sink['sink'] = 'Here'
             sink_str += f"[{sink['sink']}]({str(ctr)}),"
-        return sink_str[:-1]
+        return sink_str[:-1].capitalize() # FIXME: replace : with _
 
     def get_severity(self, reports_set):
         # Has secrets in it or permissions set

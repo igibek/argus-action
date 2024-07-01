@@ -19,31 +19,31 @@ runs:
   using: "composite"
   steps:
     # setup codeql
-    - name: setting up the codeql
+    - name: Setting up the CodeQL
       run: |
         ls ${{ github.action_path }} 
         cd ${{ github.action_path }}/bin
         wget https://github.com/github/codeql-cli-binaries/releases/download/v2.13.3/codeql-linux64.zip
-        unzip codeql-linux64.zip
+        unzip -q codeql-linux64.zip
       shell: bash
     
     - run: git clone --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
       shell: bash
     
     # setup python environment
-    - name: setting up the python
+    - name: Setting up the python
       uses: actions/setup-python@v5
       with:
         python-version: "3.10"
 
     # install dependencies
-    - name: install pip dependencies
+    - name: Install pip dependencies
       run: |
         pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
     
     # update the git url to include the token
-    - name: updating the git url
+    - name: Updating the git url
       id: https-url
       run: |
         echo ${{ github.repositoryUrl }} | sed 's/git:\/\//URL=https:\/\/${{github.token}}@/' >> "$GITHUB_OUTPUT"
