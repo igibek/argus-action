@@ -78,7 +78,7 @@ class WorkflowReport(Report):
             if 'sink' not in sink:
                 sink['sink'] = 'Here'
             sink_str += f"[{sink['sink']}]({str(ctr)}),"
-        return sink_str[:-1].capitalize() # FIXME: replace : with _
+        return sink_str[:-1]
 
     def get_severity(self, reports_set):
         # Has secrets in it or permissions set
@@ -112,7 +112,7 @@ class WorkflowReport(Report):
                 locations=[
                     sarif_om.Location(
                         physical_location=sarif_om.PhysicalLocation(
-                            artifact_location=sarif_om.ArtifactLocation(uri=issue['source_location'].capitalize()), # FIXME: 
+                            artifact_location=sarif_om.ArtifactLocation(uri=str(issue['source_location']).replace(":", "_")), # FIXME: 
                         )
                     )
                 ],
@@ -127,7 +127,7 @@ class WorkflowReport(Report):
                     sarif_om.Location(
                         id=ctr,
                         physical_location=sarif_om.PhysicalLocation(
-                            artifact_location=sarif_om.ArtifactLocation(uri=sink['sink_location'].capitalize()), # FIXME: 
+                            artifact_location=sarif_om.ArtifactLocation(uri=str(sink['sink_location']).replace(":", "_")), # FIXME: 
                         )
                     )
                 )
