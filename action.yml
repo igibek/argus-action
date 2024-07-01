@@ -24,10 +24,10 @@ runs:
         ls ${{ github.action_path }} 
         cd ${{ github.action_path }}/bin
         wget https://github.com/github/codeql-cli-binaries/releases/download/v2.13.3/codeql-linux64.zip
-        unzip -qq codeql-linux64.zip
+        unzip -qq codeql-linux64.zip >> /dev/null
       shell: bash
     
-    - run: git clone --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
+    - run: git clone -q --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
       shell: bash
     
     # setup python environment
@@ -64,6 +64,9 @@ runs:
       run: cp -r ${{ github.action_path }}/results ${{ github.workspace }}/sarif-output
       shell: bash
 
+    - run: cat ${{ github.workspace }}/sarif-output/*.sarif
+      shell: bash
+      
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v3
       with:
