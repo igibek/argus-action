@@ -112,7 +112,7 @@ class WorkflowReport(Report):
                 locations=[
                     sarif_om.Location(
                         physical_location=sarif_om.PhysicalLocation(
-                            artifact_location=sarif_om.ArtifactLocation(uri=issue['source_location']),
+                            artifact_location=sarif_om.ArtifactLocation(uri=issue['source_location'].capitalize()), # FIXME: 
                         )
                     )
                 ],
@@ -127,7 +127,7 @@ class WorkflowReport(Report):
                     sarif_om.Location(
                         id=ctr,
                         physical_location=sarif_om.PhysicalLocation(
-                            artifact_location=sarif_om.ArtifactLocation(uri=sink['sink_location']),
+                            artifact_location=sarif_om.ArtifactLocation(uri=sink['sink_location'].capitalize()), # FIXME: 
                         )
                     )
                 )
