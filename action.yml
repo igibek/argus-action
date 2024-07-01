@@ -24,7 +24,7 @@ runs:
         ls ${{ github.action_path }} 
         cd ${{ github.action_path }}/bin
         wget https://github.com/github/codeql-cli-binaries/releases/download/v2.13.3/codeql-linux64.zip
-        unzip -q codeql-linux64.zip
+        unzip -qq codeql-linux64.zip
       shell: bash
     
     - run: git clone --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
