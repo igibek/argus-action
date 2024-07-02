@@ -16,7 +16,6 @@ runs:
     # setup codeql
     - name: Setting up the CodeQL
       run: |
-        ls ${{ github.action_path }} 
         cd ${{ github.action_path }}/bin
         wget -q https://github.com/github/codeql-cli-binaries/releases/download/v2.13.3/codeql-linux64.zip
         unzip -qq codeql-linux64.zip
@@ -45,7 +44,7 @@ runs:
       shell: bash
 
     # run the argus with provided inputs
-    - name: Set GitHub Path
+    - name: Run the argus
       run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --commit=$COMMIT --output-folder=${{ github.workspace }}
       shell: bash
       env:
@@ -58,11 +57,8 @@ runs:
       id: sarif-files
       run: cp -r ${{ github.action_path }}/results ${{ github.workspace }}/sarif-output
       shell: bash
-
-    - run: cat ${{ github.workspace }}/sarif-output/*.sarif
-      shell: bash
       
-    - name: Upload SARIF file
+    - name: Upload SARIF files
       uses: github/codeql-action/upload-sarif@v3
       with:
         # Path to SARIF file relative to the root of the repository. We can path sarif-output folder to upload the whole folder
