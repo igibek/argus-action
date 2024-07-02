@@ -3,18 +3,13 @@ name: 'Argus Action'
 description: 'Static analyzer for GitHub Actions workflow and third-party actions to detect code injection vulnerabilities.'
 inputs:
   mode:
-    description: 'Mode of the action'
+    description: 'Argus supports two modes of operation. The "action" mode can be used to analyze the custom actions, the "repo" mode is used to analyze the repository workflows'
     required: true
     default: 'repo'
   workflow:
-    description: "Workflow to analyze"
+    description: "Workflow to analyze. By default it will analyze all the workflows under .github/workflows folder. This maybe time consuming."
     required: false
-  commit:
-    required: false
-  tag:
-    required: false
-  branch:
-    required: false
+
 runs:
   using: "composite"
   steps:
@@ -23,8 +18,8 @@ runs:
       run: |
         ls ${{ github.action_path }} 
         cd ${{ github.action_path }}/bin
-        wget https://github.com/github/codeql-cli-binaries/releases/download/v2.13.3/codeql-linux64.zip
-        unzip -qq codeql-linux64.zip >> /dev/null
+        wget -q https://github.com/github/codeql-cli-binaries/releases/download/v2.13.3/codeql-linux64.zip
+        unzip -qq codeql-linux64.zip
       shell: bash
     
     - run: git clone -q --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
