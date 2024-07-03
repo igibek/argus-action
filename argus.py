@@ -33,20 +33,21 @@ from argus_components.common.pylogger import set_global_log_level
 @click.option("--output-folder", required=False, default="/tmp", help="The output folder.", type=click.Path(exists=True))
 @click.option("--config", required=False, default=None, help="The config file.", type=click.Path(exists=True))
 @click.option("--verbose", is_flag=True, default=False, help="Verbose mode.")
+@click.option("--reference", default=None, type=str, help="The branch, tag or commit name")
 @click.option("--branch", default=None, type=str, help="The branch name.")
 @click.option("--commit", default=None, type=str, help="The commit hash.")
 @click.option("--tag", default=None, type=str, help="The tag.")
 @click.option("--action-path", default=None, type=str, help="The (relative) path to the action.")
 @click.option("--workflow-path", default=None, type=str, help="The (relative) path to the workflow.")
-def main(mode, url, branch, commit, tag, output_folder, config, verbose, action_path, workflow_path):
+def main(mode, url, branch, commit, tag, reference, output_folder, config, verbose, action_path, workflow_path):
 
     if verbose:
         set_global_log_level(logging.DEBUG)
     else:
         set_global_log_level(logging.INFO)
 
-    options = [branch, commit, tag]
-    options_names = ['branch', 'commit', 'tag']
+    options = [branch, commit, tag, reference]
+    options_names = ['branch', 'commit', 'tag', 'reference']
     num_of_options_provided = sum(option is not None for option in options)
 
     if num_of_options_provided > 1:

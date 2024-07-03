@@ -44,12 +44,18 @@ def clone_repo(repo_url, folder : pathlib.Path, option_dict):
 
 def git_handle(folder : pathlib.Path, option_dict):
     repo = git.Repo(folder)
-    if option_dict.get("type") == "branch":
-        git_switch_to_branch(folder, option_dict.get("value"))
-    elif option_dict.get("type") == "tag":
-        git_switch_to_tag(folder, option_dict.get("value"))
-    elif option_dict.get("type") == "commit":
-        git_switch_to_commit(folder, option_dict.get("value"))
+
+    try: 
+        repo.git.checkout(option_dict.get("value"))
+    except Exception as e:
+        logger.error("Error switching to reference %s" % e)
+
+    # if option_dict.get("type") == "branch":
+    #     git_switch_to_branch(folder, option_dict.get("value"))
+    # elif option_dict.get("type") == "tag":
+    #     git_switch_to_tag(folder, option_dict.get("value"))
+    # elif option_dict.get("type") == "commit":
+    #     git_switch_to_commit(folder, option_dict.get("value"))
 
 def get_current_HEAD(repo : git.repo):
     try:

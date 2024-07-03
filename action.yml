@@ -9,6 +9,10 @@ inputs:
   workflow:
     description: "Workflow to analyze. By default it will analyze all the workflows under .github/workflows folder. This maybe time consuming."
     required: false
+  reference:
+    description: "The repository reference (branch, tag, commit) that will be used during scan"
+    required: false
+    default: ${{ github.sha }}
 
 runs:
   using: "composite"
@@ -45,12 +49,11 @@ runs:
 
     # run the argus with provided inputs
     - name: Run the argus
-      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --commit=$COMMIT --output-folder=${{ github.workspace }}
+      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --reference=$REFERENCE --output-folder=${{ github.workspace }}
       shell: bash
       env:
         GITHUB_URL: ${{ steps.https-url.outputs.URL }}
-        COMMIT: ${{ github.sha }}
-        REFERENCE: ${{ github.ref_name }}
+        REFERENCE: ${{ inputs.reference }}
         GH_TOKEN: ${{ github.token }}
 
     - name: Copy the sarif results to workspace
