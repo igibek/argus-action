@@ -39,7 +39,7 @@ runs:
     # install dependencies
     - name: Install pip dependencies
       run: |
-        pip install -r ${{ github.action_path }}/requirements.txt --quite
+        pip install -r ${{ github.action_path }}/requirements.txt -q
       shell: bash
     
     # update the git url to include the token
