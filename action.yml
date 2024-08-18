@@ -41,13 +41,13 @@ runs:
       run: |
         pip install -r ${{ github.action_path }}/requirements.txt -q
       shell: bash
-    
+    - uses: actions/checkout@v3
     # update the git url to include the token
-    - name: Updating the git url
-      id: https-url
-      run: |
-        echo ${{ github.repositoryUrl }} | sed 's/git:\/\//URL=https:\/\/${{github.token}}@/' >> "$GITHUB_OUTPUT"
-      shell: bash
+    # - name: Updating the git url
+    #   id: https-url
+    #   run: |
+    #     echo ${{ github.repositoryUrl }} | sed 's/git:\/\//URL=https:\/\/${{github.token}}@/' >> "$GITHUB_OUTPUT"
+    #   shell: bash
 
     # run the argus with provided inputs
     - name: Run the argus
