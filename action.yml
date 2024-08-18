@@ -51,7 +51,7 @@ runs:
 
     # run the argus with provided inputs
     - name: Run the argus
-      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=$GITHUB_URL --reference=$REFERENCE --output-folder=${{ github.workspace }}
+      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=${{github.repositoryUrl}} --reference=$REFERENCE --output-folder=${{ github.workspace }}
       shell: bash
       env:
         GITHUB_URL: ${{ steps.https-url.outputs.URL }}
