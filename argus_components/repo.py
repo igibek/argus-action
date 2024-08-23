@@ -39,7 +39,7 @@ class Repo:
     def __init__(self, repo_url : str, option_dict : dict): 
         
         # fixes git cloning timeout issue inside the GitHub Actions
-        self.repo_url = repo_url.replace("git://", "https://") 
+        self.repo_url = repo_url#.replace("git://", "https://") 
         
         self.option_dict = option_dict    
         self.repo_name = self._get_repo_name_from_url()
