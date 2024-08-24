@@ -20,7 +20,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
+import os
 import git
 import pathlib
 from .pylogger  import get_logger
@@ -28,12 +28,17 @@ from .pylogger  import get_logger
 logger = get_logger("git_utils")
 
 def clone_repo(repo_url, folder : pathlib.Path, option_dict):
-    if not folder.exists():
+    if not folder.exists() or not any(folder.iterdir()):
         logger.debug(f"Cloning repo {repo_url} to {folder}")
-        folder.mkdir(parents=True)
+        folder.mkdir(parents=True, exist_ok=True)
         try:
-            git.Repo.clone_from(repo_url, folder)
-            git_handle(folder, option_dict)
+            reference = option_dict.get("value")
+            if reference:
+                git.Repo.clone_from(repo_url, folder, branch=reference)
+                git_handle(folder, option_dict)
+            else:
+                git.Repo.clone_from(repo_url, folder)
+                git_handle(folder, option_dict)
         except Exception as e:
             logger.error(f"Could not clone action {repo_url} - {e}")
             raise e

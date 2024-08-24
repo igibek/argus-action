@@ -25,8 +25,8 @@ runs:
         unzip -qq codeql-linux64.zip
       shell: bash
     
-    - run: git clone -q --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
-      shell: bash
+    # - run: git clone -q --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
+    #   shell: bash
     
     # setup python environment
     - name: Setting up the python
@@ -41,22 +41,14 @@ runs:
       run: |
         pip install -r ${{ github.action_path }}/requirements.txt -q
       shell: bash
-    - uses: actions/checkout@v3
-    # update the git url to include the token
-    # - name: Updating the git url
-    #   id: https-url
-    #   run: |
-    #     echo ${{ github.repositoryUrl }} | sed 's/git:\/\//URL=https:\/\/${{github.token}}@/' >> "$GITHUB_OUTPUT"
-    #   shell: bash
 
     # run the argus with provided inputs
     - name: Run the argus
       run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=${{github.repositoryUrl}} --reference=$REFERENCE --output-folder=${{ github.workspace }}
       shell: bash
       env:
-        GITHUB_URL: ${{ steps.https-url.outputs.URL }}
         REFERENCE: ${{ inputs.reference }}
-        GH_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ github.token }}
 
     - name: Copy the sarif results to workspace
       id: sarif-files
@@ -70,4 +62,4 @@ runs:
         sarif_file: ${{github.workspace}}/sarif-output
         # Optional category for the results
         # Used to differentiate multiple results for one commit
-        category: argus
+        category: argus-action

@@ -39,22 +39,20 @@ class Repo:
     def __init__(self, repo_url : str, option_dict : dict): 
         
         # fixes git cloning timeout issue inside the GitHub Actions
-        self.repo_url = repo_url#.replace("git://", "https://") 
-        
+        # inc;udes authorization token if not present
+        # TODO: construct the URL from ground up instead of replacing
+        self.repo_url = repo_url.replace("git://", f"https://x-access-token:{os.getenv("GITHUB_TOKEN")}@") 
         self.option_dict = option_dict    
         self.repo_name = self._get_repo_name_from_url()
         self.owner_name = self._get_repo_owner_from_url()
         self.actions = []
         self.sub_repos = []
-
         self.folder = LOCAL_FOLDER / f"{self.owner_name}#{self.repo_name}"
-        logger.info(f"Cloning repository to {self.folder}")
-        # clone the repository
-
-        clone_repo(self.repo_url, self.folder, self.option_dict)
-
         self.workflows = Workflow.initialize_workflows(self.folder)    
         self.workflow_reports = []
+
+        logger.info(f"Cloning repository to {self.folder}")
+        clone_repo(self.repo_url, self.folder, self.option_dict)
 
     def run(self, workflow_path : str = None):
         # Find the workflows in the repository
