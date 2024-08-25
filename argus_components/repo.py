@@ -41,7 +41,7 @@ class Repo:
         # fixes git cloning timeout issue inside the GitHub Actions
         # inc;udes authorization token if not present
         # TODO: construct the URL from ground up instead of replacing
-        self.repo_url = repo_url.replace("git://", f"https://x-access-token:{os.getenv("GITHUB_TOKEN")}@") 
+        self.repo_url = repo_url.replace("git://", f"https://x-access-token:{os.getenv('GITHUB_TOKEN')}@") 
         self.option_dict = option_dict    
         self.repo_name = self._get_repo_name_from_url()
         self.owner_name = self._get_repo_owner_from_url()
