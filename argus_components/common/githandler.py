@@ -34,9 +34,11 @@ def clone_repo(repo_url, folder : pathlib.Path, option_dict):
         try:
             reference = option_dict.get("value")
             if reference:
+                logger.debug(f'Reference {reference} is used to clone {repo_url}')
                 git.Repo.clone_from(repo_url, folder, branch=reference)
                 git_handle(folder, option_dict)
             else:
+                logger.debug(f'No reference was passed to download {repo_url}')
                 git.Repo.clone_from(repo_url, folder)
                 git_handle(folder, option_dict)
         except Exception as e:
@@ -51,6 +53,8 @@ def git_handle(folder : pathlib.Path, option_dict):
     repo = git.Repo(folder)
 
     try: 
+        reference = option_dict.get('value')
+        logger.debug(f'Checking out branch {reference} inside {folder}')
         repo.git.checkout(option_dict.get("value"))
     except Exception as e:
         logger.error("Error switching to reference %s" % e)
