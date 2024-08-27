@@ -26,9 +26,9 @@ runs:
         echo ${{github.action_path}}/bin/codeql >> $GITHUB_PATH
       shell: bash
     
-    - run: |
-        codeql pack install
-      shell: bash
+    # - run: |
+    #     codeql pack install
+    #   shell: bash
     # - run: git clone -q --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
     #   shell: bash
     
