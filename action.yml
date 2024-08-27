@@ -25,8 +25,8 @@ runs:
         unzip -qq codeql-linux64.zip
       shell: bash
     
-    # - run: git clone -q --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
-    #   shell: bash
+    - run: git clone -q --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
+      shell: bash
     
     # setup python environment
     - name: Setting up the python
