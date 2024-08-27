@@ -44,7 +44,7 @@ runs:
 
     # run the argus with provided inputs
     - name: Run the argus
-      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=${{github.repositoryUrl}} --reference=$REFERENCE --output-folder=${{ github.workspace }}
+      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=${{github.repositoryUrl}} --reference=$REFERENCE --output-folder=${{ github.workspace }} --verbose
       shell: bash
       env:
         REFERENCE: ${{ inputs.reference }}
@@ -54,8 +54,9 @@ runs:
       id: sarif-files
       run: cp -r ${{ github.action_path }}/results ${{ github.workspace }}/sarif-output
       shell: bash
-      
+ 
     - name: Upload SARIF files
+      if: ${{ hashFiles('sarif-output/') != '' }} # https://stackoverflow.com/questions/71336204/github-action-check-if-a-file-already-exists
       uses: github/codeql-action/upload-sarif@v3
       with:
         # Path to SARIF file relative to the root of the repository. We can path sarif-output folder to upload the whole folder
