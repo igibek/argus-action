@@ -27,6 +27,7 @@ runs:
       shell: bash
     
     - run: echo $PATH
+      shell: bash
     # - run: git clone -q --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
     #   shell: bash
     
