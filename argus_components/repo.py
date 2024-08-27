@@ -48,12 +48,13 @@ class Repo:
         self.actions = []
         self.sub_repos = []
         self.folder = LOCAL_FOLDER / f"{self.owner_name}#{self.repo_name}"
-        self.workflows = Workflow.initialize_workflows(self.folder)    
-        self.workflow_reports = []
 
         logger.info(f"Cloning repository to {self.folder}")
         clone_repo(self.repo_url, self.folder, self.option_dict)
 
+        self.workflows = Workflow.initialize_workflows(self.folder)    
+        self.workflow_reports = []
+        
     def run(self, workflow_path : str = None):
         # Find the workflows in the repository
         flag = False
