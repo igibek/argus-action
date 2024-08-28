@@ -35,7 +35,8 @@ def clone_repo(repo_url, folder : pathlib.Path, option_dict):
             reference = option_dict.get("value")
             if reference:
                 logger.debug(f'Reference {reference} is used to clone {repo_url}')
-                git.Repo.clone_from(repo_url, folder, branch=reference)
+                # git.Repo.clone_from(repo_url, folder, branch=reference)
+                git.Repo.clone_from(repo_url, folder)
                 git_handle(folder, option_dict)
             else:
                 logger.debug(f'No reference was passed to download {repo_url}')
