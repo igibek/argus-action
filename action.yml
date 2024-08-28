@@ -21,8 +21,8 @@ runs:
     - name: Setting up the CodeQL
       run: |
         cd ${{ github.action_path }}/bin
-        wget -q https://github.com/github/codeql-cli-binaries/releases/download/v2.18.3/codeql-linux64.zip
-        unzip -qq codeql-linux64.zip
+        wget -q https://github.com/github/codeql-action/releases/download/codeql-bundle-v2.18.3/codeql-bundle-linux64.tar.gz -O codeql.tar.gz
+        tar -xf codeql.tar.gz
         echo ${{github.action_path}}/bin/codeql >> $GITHUB_PATH
       shell: bash
     
