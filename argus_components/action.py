@@ -40,6 +40,7 @@ class Action:
         self.action_type = action_type
         self.parent_repo = parent_repo
 
+        #TODO: add support to actions that are hosted in different platforms
         if self.action_type == self.REMOTE_ACTION and "github.com" not in self.action_url:
             raise Exception("Only GitHub Actions are supported for now")
 
@@ -64,7 +65,8 @@ class Action:
 
     def _run_remote_action(self):
         folder = LOCAL_FOLDER / self.action_name
-        logger.info(f"Cloning action to {folder}")
+        logger.info(f"Cloning action {self.action_url} to {folder}")
+        logger.debug(f"Options passed to clone the action {self.options_dict}")
         # clone the repository
         clone_repo(self.action_url, folder, self.options_dict)
         # Get action Object
