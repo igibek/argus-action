@@ -3,16 +3,30 @@ name: 'Argus Action'
 description: 'Static analyzer for GitHub Actions workflow and third-party actions to detect code injection vulnerabilities.'
 inputs:
   mode:
-    description: 'Argus supports two modes of operation. The "action" mode can be used to analyze the custom actions, the "repo" mode is used to analyze the repository workflows'
-    required: true
+    description: >
+      Argus supports two modes of operation: (1) action and (2) repo. 
+      1. The "action" mode can be used to analyze the custom actions.
+        1.1. If the "action" mode is used, the "workflow" input will be ignored. 
+      2. The "repo" mode is used to analyze the repository's workflows (default)
     default: 'repo'
+  url:
+    description: >
+      The repository url that needs to be analyzed. By default "url" will be equal to the current workflows repository. 
+      Note: if you are passing the different url, make sure that the token used to access the repository has rights to do so.
+      Check the "token" input below
+    default: ${{ github.repositoryUrl }}
   workflow:
-    description: "Workflow to analyze. By default it will analyze all the workflows under .github/workflows folder. This maybe time consuming."
-    required: false
+    description: >
+      Workflow to analyze. By default it will analyze all the workflows under .github/workflows folder. This maybe time consuming.
   reference:
-    description: "The repository reference (branch, tag, commit) that will be used during scan"
-    required: false
-    default: ${{ github.sha }}
+    description: >
+      The reference (branch, tag) is going to be used to clone the repository.
+      By default the reference of the workflow that triggered the action will be used.
+    default: ${{ github.ref }}
+  token:
+    description: >
+      GitHub token that can be used to access the repository that needs to be analyzed. By default it will use auto generated token
+    default: ${{ github.token }}
 
 runs:
   using: "composite"
@@ -25,13 +39,6 @@ runs:
         tar -xf codeql.tar.gz
         echo ${{github.action_path}}/bin/codeql >> $GITHUB_PATH
       shell: bash
-    
-    # - run: |
-    #     cd ${{ github.action_path }}/qlqueries
-    #     codeql pack install
-    #   shell: bash
-    # - run: git clone -q --depth 1 -b codeql-cli/v2.13.3 https://github.com/github/codeql ${{ github.action_path }}/bin/codeql-repo
-    #   shell: bash
     
     # setup python environment
     - name: Setting up the python
@@ -49,11 +56,13 @@ runs:
 
     # run the argus with provided inputs
     - name: Run the argus
-      run: python ${{ github.action_path }}/argus.py --mode=${{ inputs.mode }} --url=${{github.repositoryUrl}} --reference=$REFERENCE --output-folder=${{ github.workspace }} --verbose
+      run: python ${{ github.action_path }}/argus.py --mode=$MODE --url=$URL --reference=$REFERENCE --output-folder=${{ github.workspace }} --verbose
       shell: bash
       env:
+        MODE: ${{ inputs.mode }}
+        URL: ${{ inputs.url }}
         REFERENCE: ${{ inputs.reference }}
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ inputs.token }}
 
     - name: Copy the sarif results to workspace
       id: sarif-files
