@@ -55,7 +55,8 @@ runs:
       shell: bash
 
     # run the argus with provided inputs
-    - name: Run the argus
+    - name: Check all the workflows inside the repository
+      if: inputs.workflow == ''
       run: python ${{ github.action_path }}/argus.py --mode=$MODE --url=$URL --reference=$REFERENCE --output-folder=${{ github.workspace }} --verbose
       shell: bash
       env:
@@ -63,6 +64,17 @@ runs:
         URL: ${{ inputs.url }}
         REFERENCE: ${{ inputs.reference }}
         GITHUB_TOKEN: ${{ inputs.token }}
+    
+    - name: Check all the workflows inside the repository
+      if: inputs.workflow != ''
+      run: python ${{ github.action_path }}/argus.py --mode=$MODE --url=$URL --reference=$REFERENCE --output-folder=${{ github.workspace }} --verbose
+      shell: bash
+      env:
+        MODE: ${{ inputs.mode }}
+        URL: ${{ inputs.url }}
+        REFERENCE: ${{ inputs.reference }}
+        GITHUB_TOKEN: ${{ inputs.token }}
+        WORKFLOW: ${{ inputs.workflow }}
 
     - name: Copy the sarif results to workspace
       id: sarif-files
