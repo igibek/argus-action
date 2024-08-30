@@ -67,7 +67,7 @@ runs:
     
     - name: Check all the workflows inside the repository
       if: inputs.workflow != ''
-      run: python ${{ github.action_path }}/argus.py --mode=$MODE --url=$URL --reference=$REFERENCE --output-folder=${{ github.workspace }} --verbose
+      run: python ${{ github.action_path }}/argus.py --mode=$MODE --url=$URL --reference=$REFERENCE --output-folder=${{ github.workspace }} --workflow-path=$WORKFLOW --verbose
       shell: bash
       env:
         MODE: ${{ inputs.mode }}
