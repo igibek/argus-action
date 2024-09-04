@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: argus.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/argus.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--mode", "repo",
+                "--url", "https://github.com/DynamoDS/Dynamo", 
+                "--commit", "eaeabeb053372ff62fa5518c064908a1c8a6afe",
+                "--workflow-path", ".github/workflows/issue_type_predicter.yaml"
+            ]
+        },
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        }
+    ]
+}
