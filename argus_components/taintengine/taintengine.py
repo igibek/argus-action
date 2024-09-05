@@ -1082,7 +1082,7 @@ class TaintEngine:
     
         ret = ""        
         if self.curr_type == TaintEngine.WFL_MODE:
-            ret += f"{self.workflow.wf_name} | "
+            ret += f"{self.workflow.workflow_path} | "
         elif self.curr_type == TaintEngine.ACTION_MODE:
             ret += f"{self.action.action_name} | "    
 
@@ -1100,7 +1100,7 @@ class TaintEngine:
         assert self.override_location is None, "Override location is already set"
         ret = ""
         if self.curr_type == TaintEngine.WFL_MODE:
-            ret += f"{self.workflow.wf_name} | "
+            ret += f"{self.workflow.workflow_path} | "
         elif self.curr_type == TaintEngine.ACTION_MODE:
             ret += f"{self.action.action_name} | "    
         ret += location
