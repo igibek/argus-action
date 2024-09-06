@@ -32,14 +32,14 @@ def clone_repo(repo_url, folder : pathlib.Path, option_dict):
         logger.debug(f"Cloning repo {repo_url} to {folder}")
         folder.mkdir(parents=True, exist_ok=True)
         try:
-            reference = option_dict.get("value")
+            reference = option_dict.get("reference")
             if reference:
                 logger.debug(f'Reference {reference} is used to clone {repo_url}')
                 git.Repo.clone_from(repo_url, folder, branch=reference)
                 # git.Repo.clone_from(repo_url, folder)
                 git_handle(folder, option_dict)
             else:
-                logger.debug(f'No reference was passed to download {repo_url}')
+                logger.debug(f'No reference was passed to clone {repo_url}')
                 git.Repo.clone_from(repo_url, folder)
                 git_handle(folder, option_dict)
         except Exception as e:
@@ -53,19 +53,19 @@ def clone_repo(repo_url, folder : pathlib.Path, option_dict):
 def git_handle(folder : pathlib.Path, option_dict):
     repo = git.Repo(folder)
 
-    try: 
-        reference = option_dict.get('value')
-        logger.debug(f'Checking out branch {reference} inside {folder}')
-        repo.git.checkout(option_dict.get("value"))
-    except Exception as e:
-        logger.error("Error switching to reference %s" % e)
+    # try: 
+    #     reference = option_dict.get('value')
+    #     logger.debug(f'Checking out branch {reference} inside {folder}')
+    #     repo.git.checkout(option_dict.get("value"))
 
-    # if option_dict.get("type") == "branch":
-    #     git_switch_to_branch(folder, option_dict.get("value"))
-    # elif option_dict.get("type") == "tag":
-    #     git_switch_to_tag(folder, option_dict.get("value"))
-    # elif option_dict.get("type") == "commit":
-    #     git_switch_to_commit(folder, option_dict.get("value"))
+    # except Exception as e:
+    #     logger.error("Error switching to reference %s" % e)
+    if option_dict.get("type") == "branch":
+        git_switch_to_branch(folder, option_dict.get("value"))
+    elif option_dict.get("type") == "tag":
+        git_switch_to_tag(folder, option_dict.get("value"))
+    elif option_dict.get("type") == "commit":
+        git_switch_to_commit(folder, option_dict.get("value"))
 
 def get_current_HEAD(repo : git.repo):
     try:
