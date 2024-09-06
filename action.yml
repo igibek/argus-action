@@ -22,7 +22,7 @@ inputs:
     description: >
       The reference (branch, tag) is going to be used to clone the repository.
       By default the reference of the workflow that triggered the action will be used.
-    default: ${{ github.ref }}
+    default: ${{ github.ref_name }}
   token:
     description: >
       GitHub token that can be used to access the repository that needs to be analyzed. By default it will use auto generated token
